@@ -40,6 +40,42 @@
 .servicio input:checked + .servicio__caja .servicio__check { transform: scale(1); }
 .servicio input:focus-visible + .servicio__caja { outline-color: rgba(34, 51, 196, 0.5); }
 
+/* Sucursales */
+.sucursales { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sucursal, .barbero { display: block; min-width: 0; }
+.sucursal input, .barbero input { position: absolute; opacity: 0; pointer-events: none; }
+.sucursal__caja { position: relative; display: flex; align-items: center; gap: 16px; padding: 18px; border: 2px solid var(--linea); border-radius: 20px; cursor: pointer; transition: border-color 0.15s, background 0.15s, box-shadow 0.2s; }
+.sucursal__caja:hover { border-color: var(--linea-fuerte); }
+.sucursal__icono { flex: none; display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: #f1f1f4; color: var(--papel); transition: background 0.15s, color 0.15s; }
+.sucursal__icono svg { width: 26px; height: 26px; }
+.sucursal__texto { display: grid; gap: 4px; min-width: 0; }
+.sucursal__texto strong { font-family: var(--ff-titulo); font-weight: 400; font-size: 26px; line-height: 1; text-transform: uppercase; }
+.sucursal__texto small { display: flex; align-items: flex-start; gap: 5px; font-size: 13px; line-height: 1.35; color: var(--apagado); }
+.sucursal__texto small svg { flex: none; width: 15px; height: 15px; margin-top: 1px; }
+.sucursal__check, .barbero__check { margin-left: auto; flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--volt); color: #fff; transform: scale(0); transition: transform 0.25s var(--ease); }
+.sucursal__check svg { width: 14px; height: 14px; }
+.sucursal input:checked + .sucursal__caja { border-color: var(--volt); box-shadow: 0 10px 26px rgba(34, 51, 196, 0.14); }
+.sucursal input:checked + .sucursal__caja .sucursal__icono { background: var(--volt); color: #fff; }
+.sucursal input:checked + .sucursal__caja .sucursal__check { transform: scale(1); }
+.sucursal input:focus-visible + .sucursal__caja, .barbero input:focus-visible + .barbero__caja { outline: 3px solid rgba(34, 51, 196, 0.4); outline-offset: 2px; }
+
+/* Barberos */
+.barberos { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.barberos[hidden] { display: none; }
+.barbero__caja { display: flex; align-items: center; gap: 12px; height: 100%; padding: 12px 14px 12px 12px; border: 2px solid var(--linea); border-radius: 999px; cursor: pointer; transition: border-color 0.15s, background 0.15s, color 0.15s; }
+.barbero__caja:hover { border-color: var(--linea-fuerte); }
+.barbero__foto { flex: none; display: grid; place-items: center; overflow: hidden; width: 46px; height: 46px; border-radius: 50%; background: #1b1b1f; color: #fff; font-family: var(--ff-titulo); font-size: 18px; letter-spacing: 0.04em; }
+.barbero__foto img { width: 100%; height: 100%; object-fit: cover; }
+.barbero__foto--cualquiera { background: var(--volt); }
+.barbero__foto svg { width: 20px; height: 20px; }
+.barbero__texto { display: grid; gap: 2px; min-width: 0; }
+.barbero__texto strong { font-size: 15px; font-weight: 800; line-height: 1.2; }
+.barbero__texto small { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--apagado); }
+.barbero__texto small svg { width: 14px; height: 14px; color: #f2b01e; }
+.barbero input:checked + .barbero__caja { border-color: var(--papel); background: var(--papel); color: #fff; }
+.barbero input:checked + .barbero__caja small { color: rgba(255, 255, 255, 0.65); }
+.barbero input:checked + .barbero__caja .barbero__foto { box-shadow: 0 0 0 2px #fff; }
+
 /* Días: fila que se desliza */
 .dias { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: none; scroll-snap-type: x proximity; }
 .dias::-webkit-scrollbar { display: none; }
@@ -92,6 +128,11 @@
 }
 @media (max-width: 640px) {
   .turno__campos { grid-template-columns: 1fr; }
+  .sucursales { grid-template-columns: 1fr; gap: 10px; }
+  .sucursal__caja { padding: 14px; gap: 14px; }
+  .sucursal__icono { width: 46px; height: 46px; }
+  .sucursal__texto strong { font-size: 22px; }
+  .barberos { grid-template-columns: 1fr; gap: 8px; }
   .servicios { grid-template-columns: 1fr 1fr; gap: 10px; }
   .servicio__caja { aspect-ratio: 4 / 5; border-radius: 16px; }
   .servicio__texto { padding: 12px; }

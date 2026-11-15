@@ -3,6 +3,29 @@
 module.exports = {
   // Foto de fondo de la portada de la página
   portada: "/img/inicio/cortes/corte-08.jpg",
+  // Sucursales y sus barberos. "foto" es opcional (ej: "/img/barberos/juanca.jpg"); si falta se muestra la inicial.
+  sucursales: [
+    {
+      id: "centro",
+      nombre: "Centro",
+      direccion: "Garibaldi 141, Santiago del Estero",
+      barberos: [
+        { id: "juanca", nombre: "Juanca Fernandez", nivel: "Elite" },
+        { id: "kelly", nombre: "Kelly Villalba", nivel: "Senior" },
+      ],
+    },
+    {
+      id: "sur",
+      nombre: "Sur",
+      direccion: "Av. Independencia 2742, Santiago del Estero",
+      barberos: [
+        { id: "fabrizio", nombre: "Fabrizio Fragelli", nivel: "Senior" },
+        { id: "bruno", nombre: "Bruno Sayago", nivel: "Senior" },
+        { id: "juanca", nombre: "Juanca Fernandez", nivel: "Elite" },
+        { id: "joaco", nombre: "Joaco Luna", nivel: "Senior" },
+      ],
+    },
+  ],
   servicios: [
     { id: "corte", foto: "/img/inicio/cortes/corte-09.jpg", nombre: "Corte", detalle: "Clásico, fade o degradé", minutos: 40 },
     { id: "corte-barba", foto: "/img/inicio/cortes/corte-06.jpg", nombre: "Corte + barba", detalle: "Corte completo y perfilado de barba", minutos: 60 },

@@ -69,10 +69,26 @@
     resumen();
   });
 
+  // Sucursal → muestra sus barberos y marca "El primero libre"
+  const sucursalElegida = () => config.sucursales.find((s) => s.id === form.sucursal.value);
+  const barberoElegido = () => {
+    const marcado = form.querySelector('.barberos:not([hidden]) input[name="barbero"]:checked');
+    return marcado?.value ? sucursalElegida().barberos.find((b) => b.id === marcado.value) : null;
+  };
+  form.querySelectorAll('input[name="sucursal"]').forEach((r) => r.addEventListener("change", () => {
+    form.querySelectorAll(".barberos").forEach((g) => {
+      const visible = g.dataset.sucursal === form.sucursal.value;
+      g.hidden = !visible;
+      g.querySelectorAll("input").forEach((i) => { i.checked = visible && !i.value; });
+    });
+  }));
+
   const servicioElegido = () => config.servicios.find((s) => s.id === form.servicio.value);
   const textoDia = (f) => `${["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"][f.getDay()]} ${f.getDate()} de ${["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"][f.getMonth()]}`;
 
   function resumen() {
+    document.getElementById("rSucursal").textContent = sucursalElegida()?.nombre || "—";
+    document.getElementById("rBarbero").textContent = barberoElegido()?.nombre || "El primero libre";
     document.getElementById("rServicio").textContent = servicioElegido()?.nombre || "—";
     document.getElementById("rDia").textContent = estado.dia ? textoDia(estado.dia) : "Elegí un día";
     document.getElementById("rHora").textContent = estado.hora ? `${estado.hora} hs` : "Elegí una hora";
@@ -97,10 +113,14 @@
       return;
     }
     const s = servicioElegido();
+    const suc = sucursalElegida();
+    const barbero = barberoElegido();
     const nota = form.nota.value.trim();
     const mensaje = [
       "¡Hola Top Level! Quiero sacar un turno 💈",
       "",
+      `• Sucursal: ${suc.nombre} (${suc.direccion})`,
+      `• Barbero: ${barbero ? barbero.nombre : "el primero libre"}`,
       `• Servicio: ${s.nombre}`,
       `• Día: ${textoDia(estado.dia)}`,
       `• Hora: ${estado.hora} hs`,
@@ -113,7 +133,7 @@
     const listoTexto = document.getElementById("turnoListoTexto");
     if (wa) {
       window.open(`${wa}?text=${encodeURIComponent(mensaje)}`, "_blank", "noopener");
-      listoTexto.textContent = `Te abrimos WhatsApp con tu pedido para el ${textoDia(estado.dia)} a las ${estado.hora} hs. Envialo y te confirmamos el turno.`;
+      listoTexto.textContent = `Te abrimos WhatsApp con tu pedido en ${suc.nombre} para el ${textoDia(estado.dia)} a las ${estado.hora} hs. Envialo y te confirmamos el turno.`;
     } else {
       listoTexto.textContent = `Anotamos tu pedido para el ${textoDia(estado.dia)} a las ${estado.hora} hs. Escribinos por Instagram para confirmarlo.`;
     }
