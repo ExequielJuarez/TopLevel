@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= titulo %> | Top Level Barber Shop</title>
+  <meta name="description" content="<%= locals.descripcion || 'Top Level Barber Shop: cortes, barba y productos para el cuidado masculino. Comprá online y retirá en el local.' %>">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="<%= titulo %> | Top Level Barber Shop">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/img/marca/toplevel.webp">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Yellowtail&family=Epilogue:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <%# La pantalla de entrada se ve una sola vez por visita (sin parpadeo) %>
+  <script>try { if (sessionStorage.getItem('tl-intro') || !/^\/($|\?)/.test(location.pathname + location.search)) document.documentElement.classList.add('sin-intro'); } catch (e) { document.documentElement.classList.add('sin-intro'); }</script>
+  <style>.sin-intro .intro { display: none; }</style>
+  <%# Si una foto no existe, se muestra la imagen neutra de "sin foto" %>
+  <script>document.addEventListener('error', function (e) { var i = e.target; if (i.tagName === 'IMG' && !i.dataset.sinFoto) { i.dataset.sinFoto = '1'; i.src = '/img/sin-foto.svg'; } }, true);</script>
+
+  <link rel="stylesheet" href="/css/base.css">
+  <%# estilo puede ser un nombre o una lista: "login" o ["cuenta", "mis-datos"] %>
+  <% [].concat(locals.estilo || []).forEach(hoja => { %>
+    <link rel="stylesheet" href="/css/<%= hoja %>.css">
+  <% }) %>
+</head>
+<body>

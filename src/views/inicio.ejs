@@ -1,0 +1,210 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<%
+  const c = contenido;
+  const lineas = (t) => String(t || '').split('\n').filter(Boolean);
+  const precio = (n) => formatoPrecio(n).replace(',00', '');
+%>
+
+<%# ═════════ PORTADA ═════════ %>
+<%# Banner: las fotos de los cortes pasan solas (public/js/inicio.js) %>
+<% const fotosBanner = c.portada.fotos.map((f) => f.imagen).filter(Boolean); %>
+<section class="banner" id="portada" data-banner data-segundos="<%= c.portada.segundos || 5 %>" aria-roledescription="carrusel" aria-label="Cortes de Top Level">
+  <div class="banner__fotos">
+    <% fotosBanner.forEach((src, i) => { %>
+      <div class="banner__foto <%= i === 0 ? 'activa' : '' %>" data-slide>
+        <%# Atrás: la misma foto borrosa para llenar los costados. Adelante: la foto entera, sin cortar cabezas %>
+        <img class="banner__relleno" src="<%= src %>" alt="" aria-hidden="true" <%- i === 0 ? '' : 'loading="lazy"' %>>
+        <img class="banner__img" src="<%= src %>" alt="Corte de Top Level Barber Shop <%= i + 1 %>" <%- i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %>>
+      </div>
+    <% }) %>
+  </div>
+  <div class="banner__velo" aria-hidden="true"></div>
+
+  <div class="banner__contenido">
+    <p class="etiqueta-seccion banner__etiqueta"><%= c.portada.etiqueta %></p>
+    <h1 class="banner__titulo titulo">
+      <% lineas(c.portada.titulo).forEach((l) => { %><span><%- textoRico(l) %></span><% }) %>
+    </h1>
+    <% if (c.portada.bajada) { %><p class="banner__bajada"><%= c.portada.bajada %></p><% } %>
+    <div class="banner__botones">
+      <a href="<%= c.portada.botonLink %>" class="btn btn--volt btn--grande" <%- /^https?:/.test(c.portada.botonLink) ? 'target="_blank" rel="noopener"' : '' %>>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <%= c.portada.botonTexto %>
+      </a>
+      <a href="<%= c.portada.secundarioLink %>" class="btn btn--blanco btn--grande">
+        <%= c.portada.secundarioTexto %>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <% if (fotosBanner.length > 1) { %>
+  <div class="banner__controles">
+    <button type="button" class="banner__flecha" data-anterior aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <div class="banner__puntos" role="tablist">
+      <% fotosBanner.forEach((_, i) => { %><button type="button" class="banner__punto <%= i === 0 ? 'activo' : '' %>" data-punto="<%= i %>" aria-label="Ver foto <%= i + 1 %>"></button><% }) %>
+    </div>
+    <button type="button" class="banner__flecha" data-siguiente aria-label="Foto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+  <% } %>
+</section>
+
+<%# ═════════ CINTA ═════════ %>
+<% if (c.cinta.visible) { %>
+<div class="cinta" aria-hidden="true">
+  <div class="cinta__pista">
+    <% for (let r = 0; r < 4; r++) { lineas(c.cinta.palabras).forEach((w) => { %>
+      <span><%- textoRico(w) %></span><i>✦</i>
+    <% }) } %>
+  </div>
+</div>
+<% } %>
+
+<%# ═════════ CATEGORÍAS ═════════ %>
+<% if (c.categorias.visible) { %>
+<section class="bloque" id="categorias">
+  <div class="contenedor">
+    <header class="bloque__cab rev">
+      <p class="etiqueta-seccion"><%= c.categorias.etiqueta %></p>
+      <h2 class="bloque__titulo titulo"><%- textoRico(c.categorias.titulo) %></h2>
+    </header>
+    <div class="categorias">
+      <% c.categorias.items.forEach((cat, i) => { if (!cat.nombre) return; %>
+        <a href="<%= cat.link %>" class="cat rev" style="--d: <%= i * 0.08 %>s">
+          <span class="cat__num"><%= String(i + 1).padStart(2, '0') %></span>
+          <% if (cat.imagen) { %><img src="<%= cat.imagen %>" alt="" loading="lazy"><% } %>
+          <span class="cat__pie">
+            <strong class="cat__nombre titulo"><%= cat.nombre %></strong>
+            <span class="cat__frase"><%= cat.frase %></span>
+            <span class="cat__flecha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+          </span>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%# ═════════ VITRINA (últimos insumos, fila que se desliza) ═════════ %>
+<% if (c.nuevos.visible && nuevos.length) { %>
+<section class="vitrina" id="nuevos" data-vitrina>
+  <div class="contenedor vitrina__cab rev">
+    <div>
+      <p class="etiqueta-seccion"><%= c.nuevos.etiqueta %></p>
+      <h2 class="bloque__titulo titulo"><%- textoRico(c.nuevos.titulo) %></h2>
+    </div>
+    <div class="vitrina__acciones">
+      <a href="<%= c.nuevos.linkUrl %>" class="enlace"><%= c.nuevos.linkTexto %> →</a>
+      <div class="vitrina__flechas">
+        <button type="button" class="vitrina__flecha" data-vit-anterior aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button type="button" class="vitrina__flecha" data-vit-siguiente aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="vitrina__pista" data-vit-pista>
+    <% nuevos.forEach((p, i) => { %>
+      <a href="/producto/<%= p.id %>" class="vit">
+        <span class="vit__foto">
+          <% if (p.imagenes[0]) { %><img src="<%= p.imagenes[0].ruta %>" alt="<%= p.nombre %>" loading="lazy"><% } %>
+          <span class="vit__num"><%= String(i + 1).padStart(2, '0') %></span>
+          <% if (p.etiqueta) { %><span class="vit__chip"><%= p.etiqueta %></span><% } %>
+        </span>
+        <span class="vit__info">
+          <small><%= p.categoria %></small>
+          <strong class="vit__nombre"><%= p.nombre %></strong>
+          <span class="vit__fila">
+            <span class="vit__precio"><%= precio(p.precio) %></span>
+            <span class="vit__ir" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M7 17L17 7M9 7h8v8"/></svg></span>
+          </span>
+          <span class="vit__cuotas">6 cuotas de <%= precio(Math.round(p.precio / 6)) %></span>
+        </span>
+      </a>
+    <% }) %>
+  </div>
+</section>
+<% } %>
+
+<%# ═════════ LOOKBOOK ═════════ %>
+<% if (c.lookbook.visible && c.lookbook.fotos.some((f) => f.imagen)) { %>
+<section class="bloque bloque--oscuro" id="lookbook">
+  <div class="contenedor">
+    <header class="bloque__cab bloque__cab--fila rev">
+      <div>
+        <p class="etiqueta-seccion"><%= c.lookbook.etiqueta %></p>
+        <h2 class="bloque__titulo titulo"><%- textoRico(c.lookbook.titulo) %></h2>
+      </div>
+      <a href="<%= c.lookbook.redLink %>" target="_blank" rel="noopener" class="enlace"><%= c.lookbook.redTexto %> ↗</a>
+    </header>
+    <div class="lookbook">
+      <% c.lookbook.fotos.forEach((f, i) => { if (!f.imagen) return; %>
+        <figure class="look look--<%= i + 1 %> rev" style="--d: <%= i * 0.08 %>s">
+          <img src="<%= f.imagen %>" alt="<%= f.texto %>" loading="lazy">
+          <% if (f.texto) { %><figcaption><%= f.texto %></figcaption><% } %>
+        </figure>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%# ═════════ EL LOCAL ═════════ %>
+<% if (c.local.visible) { %>
+<%# Foto del local de fondo y los datos en el medio %>
+<section class="local" id="local">
+  <% if (c.local.imagen) { %><img class="local__fondo" src="<%= c.local.imagen %>" alt="" loading="lazy"><% } %>
+  <div class="local__velo" aria-hidden="true"></div>
+  <div class="contenedor local__centro rev">
+    <p class="etiqueta-seccion local__etiqueta"><%= c.local.etiqueta %></p>
+    <h2 class="local__titulo titulo"><%- textoRico(c.local.titulo) %></h2>
+    <% if (c.local.bajada) { %><p class="local__bajada"><%= c.local.bajada %></p><% } %>
+    <div class="local__datos">
+      <div class="local__dato">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span><small>Dirección</small><%= c.local.direccion %></span>
+      </div>
+      <div class="local__dato">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span><small>Horarios</small><%= c.local.horarios %></span>
+      </div>
+      <% if (tienda.whatsapp) { %>
+      <div class="local__dato">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3a9 9 0 00-7.8 13.5L3 21l4.6-1.2A9 9 0 1012 3z"/></svg>
+        <span><small>WhatsApp</small><a href="<%= tienda.whatsapp %>" target="_blank" rel="noopener">Escribinos</a></span>
+      </div>
+      <% } %>
+    </div>
+    <div class="local__botones">
+      <a href="<%= c.local.botonLink %>" target="_blank" rel="noopener" class="btn btn--vidrio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
+        <%= c.local.botonTexto %>
+      </a>
+      <a href="<%= c.portada.botonLink %>" class="btn btn--volt">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <%= c.portada.botonTexto %>
+      </a>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%# ═════════ CIERRE ═════════ %>
+<% if (c.cierre.visible) { %>
+<section class="cierre">
+  <div class="contenedor cierre__interior rev">
+    <p class="etiqueta-seccion"><%= c.cierre.etiqueta %></p>
+    <h2 class="cierre__titulo titulo">
+      <% lineas(c.cierre.titulo).forEach((l) => { %><span><%- textoRico(l) %></span><% }) %>
+    </h2>
+    <div class="hero__botones">
+      <a href="<%= c.cierre.botonLink %>" target="_blank" rel="noopener" class="btn btn--volt"><%= c.cierre.botonTexto %></a>
+      <a href="<%= c.cierre.secundarioLink %>" class="btn btn--linea"><%= c.cierre.secundarioTexto %></a>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<%- include('partials/footer') %>
+<script src="/js/inicio.js"></script>
+</body>
+</html>

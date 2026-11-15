@@ -1,0 +1,48 @@
+<%# Armazón del panel: barra de arriba con el menú. Cada vista lo abre con admin-inicio y lo cierra con admin-fin %>
+<% const sec = locals.seccion || ''; const pend = locals.pedidosPendientes || 0; const arrep = locals.arrepentimientosPendientes || 0;
+   const items = [
+     ['dashboard', '/admin', 'Resumen', '<path d="M4 13h6V4H4zM14 20h6V11h-6zM14 4v4h6V4zM4 20h6v-3H4z"/>', 0],
+     ['pedidos', '/admin/pedidos', 'Pedidos', '<path d="M5 8h14l-1.2 12H6.2zM9 8V6a3 3 0 016 0v2"/>', pend],
+     ['productos', '/admin/productos', 'Productos', '<path d="M4 7l8-4 8 4v10l-8 4-8-4zM4 7l8 4 8-4M12 11v10"/>', 0],
+     ['categorias', '/admin/categorias', 'Categorías', '<path d="M4 6h16M4 12h16M4 18h10"/>', 0],
+     ['arrepentimientos', '/admin/arrepentimientos', 'Arrepentimientos', '<path d="M3 12a9 9 0 109-9M3 4v5h5"/>', arrep],
+   ];
+   if (esSuperAdmin(locals.usuario)) items.push(['inicio', '/admin/inicio', 'Página de inicio', '<path d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>', 0]);
+%>
+<div class="adm">
+  <header class="adm-top">
+    <div class="adm-top__fila">
+      <a href="/admin" class="adm-marca" aria-label="Panel Top Level"><span><%- include('logo') %></span><small>Panel</small></a>
+
+      <nav class="adm-nav" aria-label="Menú del panel">
+        <% items.forEach(([k, url, nombre, icono, n]) => { %>
+          <a href="<%= url %>" class="<%= sec === k ? 'activo' : '' %>" <%- sec === k ? 'aria-current="page"' : '' %>>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><%- icono %></svg>
+            <span><%= nombre %></span>
+            <% if (n) { %><b class="adm-nav__n"><%= n %></b><% } %>
+          </a>
+        <% }) %>
+      </nav>
+
+      <div class="adm-top__der">
+        <a href="/" class="icono-btn adm-tienda" target="_blank" rel="noopener" aria-label="Ver la tienda" title="Ver la tienda">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9h16M9 20v-6h6v6"/></svg>
+        </a>
+        <%- include('notificaciones') %>
+        <details class="adm-usuario">
+          <summary aria-label="Mi cuenta">
+            <span class="adm-usuario__inicial"><%= usuario.nombre.charAt(0) %></span>
+            <span class="adm-usuario__nombre"><%= usuario.nombre %><small><%= esSuperAdmin(usuario) ? 'Superadmin' : 'Admin' %></small></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="adm-usuario__menu">
+            <a href="/" target="_blank" rel="noopener">Ver la tienda ↗</a>
+            <form action="/logout" method="POST"><button type="submit">Cerrar sesión</button></form>
+          </div>
+        </details>
+      </div>
+    </div>
+  </header>
+
+  <div class="adm-cuerpo">
+    <main class="adm-main" id="contenido">

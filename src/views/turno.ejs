@@ -1,0 +1,103 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<%# ═════════ Sacar turno: servicio → día → hora → datos → se confirma por WhatsApp ═════════ %>
+<section class="turno-cab">
+  <% if (config.portada) { %><img class="turno-cab__fondo" src="<%= config.portada %>" alt="" fetchpriority="high"><% } %>
+  <div class="contenedor turno-cab__contenido">
+    <nav class="migas" aria-label="Migas de pan"><a href="/">Inicio</a><span>/</span><span aria-current="page">Sacar turno</span></nav>
+    <h1 class="turno-cab__titulo titulo">Reservá tu <em>turno</em></h1>
+    <p class="turno-cab__bajada">Elegí el servicio, el día y la hora. Te confirmamos por WhatsApp.</p>
+    <div class="turno-cab__datos">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><%= tienda.direccion %></span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><%= tienda.horarios %></span>
+    </div>
+  </div>
+</section>
+
+<section class="contenedor turno" data-turno data-whatsapp="<%= tienda.whatsapp %>" data-instagram="<%= tienda.instagram %>">
+  <script type="application/json" id="turnoConfig"><%- JSON.stringify(config).replace(/</g, '\\u003c') %></script>
+
+  <form class="turno__pasos" id="turnoForm" novalidate>
+    <%# 1. Servicio %>
+    <fieldset class="paso">
+      <legend class="paso__titulo"><span>1</span> ¿Qué te hacés?</legend>
+      <div class="servicios">
+        <% config.servicios.forEach((s, i) => { %>
+          <label class="servicio">
+            <input type="radio" name="servicio" value="<%= s.id %>" <%= i === 0 ? 'checked' : '' %>>
+            <span class="servicio__caja">
+              <% if (s.foto) { %><img src="<%= s.foto %>" alt="" loading="lazy"><% } %>
+              <span class="servicio__min"><%= s.minutos %> min</span>
+              <span class="servicio__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+              <span class="servicio__texto">
+                <strong><%= s.nombre %></strong>
+                <small><%= s.detalle %></small>
+              </span>
+            </span>
+          </label>
+        <% }) %>
+      </div>
+    </fieldset>
+
+    <%# 2. Día (lo arma public/js/turno.js) %>
+    <fieldset class="paso">
+      <legend class="paso__titulo"><span>2</span> Elegí el día</legend>
+      <div class="dias" id="dias" role="radiogroup" aria-label="Día"></div>
+    </fieldset>
+
+    <%# 3. Hora %>
+    <fieldset class="paso">
+      <legend class="paso__titulo"><span>3</span> Elegí la hora</legend>
+      <div class="horas" id="horas" role="radiogroup" aria-label="Hora"></div>
+      <p class="paso__nota" id="horasVacio" hidden>No quedan horarios para este día. Probá con otro.</p>
+    </fieldset>
+
+    <%# 4. Datos %>
+    <fieldset class="paso">
+      <legend class="paso__titulo"><span>4</span> Tus datos</legend>
+      <div class="turno__campos">
+        <div class="campo">
+          <label for="tNombre">Nombre</label>
+          <input id="tNombre" name="nombre" autocomplete="given-name" maxlength="40" value="<%= locals.usuarioLocal ? usuarioLocal.nombre : '' %>" required>
+        </div>
+        <div class="campo">
+          <label for="tTelefono">Celular</label>
+          <input id="tTelefono" name="telefono" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="Ej: 385 512 3456" required>
+        </div>
+        <div class="campo turno__nota">
+          <label for="tNota">¿Algo más? <small>(opcional)</small></label>
+          <textarea id="tNota" name="nota" maxlength="200" placeholder="Ej: quiero el mismo fade de la última vez"></textarea>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <%# Resumen (fijo al costado en PC) %>
+  <aside class="resumen-turno" aria-live="polite">
+    <p class="resumen-turno__titulo">Tu turno</p>
+    <dl>
+      <div><dt>Servicio</dt><dd id="rServicio">—</dd></div>
+      <div><dt>Día</dt><dd id="rDia">Elegí un día</dd></div>
+      <div><dt>Hora</dt><dd id="rHora">Elegí una hora</dd></div>
+    </dl>
+    <p class="resumen-turno__error" id="turnoError" hidden></p>
+    <button type="submit" form="turnoForm" class="btn btn--volt btn--bloque btn--grande" id="turnoEnviar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3a9 9 0 00-7.8 13.5L3 21l4.6-1.2A9 9 0 1012 3z"/></svg>
+      Confirmar por WhatsApp
+    </button>
+    <p class="resumen-turno__ayuda">Se abre WhatsApp con tu pedido listo para enviar. El turno queda confirmado cuando te respondemos.</p>
+  </aside>
+
+  <div class="turno-listo" id="turnoListo" hidden>
+    <span class="turno-listo__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+    <h2 class="titulo">¡Listo!</h2>
+    <p id="turnoListoTexto">Mandanos el mensaje por WhatsApp y te confirmamos el turno.</p>
+    <a href="/turno" class="btn btn--linea">Pedir otro turno</a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
+<script src="/js/turno.js"></script>
+</body>
+</html>
