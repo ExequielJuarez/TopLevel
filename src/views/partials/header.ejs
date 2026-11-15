@@ -100,7 +100,7 @@
   </nav>
   <a href="/turno" class="btn btn--volt btn--bloque drawer__turno">Sacar turno</a>
   <div class="drawer__pie">
-    <span><%= tienda.direccion %></span>
+    <% tienda.sucursales.forEach((s) => { %><span><%= s.nombre %>: <%= s.direccion.replace(', Santiago del Estero', '') %></span><% }) %>
     <span><%= tienda.horarios %></span>
     <a href="<%= tienda.instagram %>" target="_blank" rel="noopener"><%= tienda.usuario %></a>
   </div>

@@ -12,7 +12,7 @@ function situacionPedido(p) {
   }
   if (p.estado === "enviado") {
     return retiro
-      ? { clave: "curso", texto: "Listo para retirar", detalle: "Ya podés pasar a buscarlo por el local de La Plata 189." }
+      ? { clave: "curso", texto: "Listo para retirar", detalle: "Ya podés pasar a buscarlo por el local." }
       : { clave: "curso", texto: "En camino", detalle: "Lo despachamos. Te llega en los próximos días." };
   }
   if (p.pagoEstado === "aprobado") {

@@ -33,7 +33,7 @@
           <div><span>Contacto</span><strong><%= datos.nombre %> <%= datos.apellido %></strong><small><%= datos.email %> · <%= datos.telefono %></small></div>
           <div>
             <span><%= datos.entrega === 'retiro' ? 'Retiro' : 'Envío a' %></span>
-            <% if (datos.entrega === 'retiro') { %><strong>Local de La Plata 189</strong><small><%= tienda.horarios %></small>
+            <% if (datos.entrega === 'retiro') { %><strong>Retiro en el local</strong><small><%= tienda.horarios %></small>
             <% } else { %><strong><%= datos.calle %> <%= datos.numero %><%= datos.piso ? ', ' + datos.piso : '' %></strong><small><%= datos.ciudad %>, <%= datos.provincia %> (<%= datos.codigoPostal %>)</small><% } %>
           </div>
           <a href="/checkout/datos" class="enlace">Editar</a>

@@ -110,6 +110,9 @@
 .local__dato span { display: grid; font-weight: 700; font-size: 15px; }
 .local__dato small { font-size: 10.5px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7); }
 .local__dato a { text-decoration: underline; }
+.local__dato--sucursal { transition: background 0.2s, border-color 0.2s; }
+.local__dato--sucursal:hover { background: rgba(255, 255, 255, 0.18); border-color: rgba(255, 255, 255, 0.45); }
+.local__dato em { font-style: normal; font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.7); margin-top: 2px; }
 .local__botones { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 10px; }
 
 /* Cierre */

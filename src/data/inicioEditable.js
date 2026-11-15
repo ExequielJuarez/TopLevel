@@ -150,7 +150,7 @@ const SECCIONES = {
           { titulo: "Envío gratis", texto: "En compras desde $150.000 a todo el país." },
           { titulo: "10% off", texto: "Pagando por transferencia bancaria." },
           { titulo: "Hasta 6 cuotas", texto: "Con tarjeta de crédito, por Mercado Pago." },
-          { titulo: "Retiro sin costo", texto: "En el local de La Plata 189, Santiago del Estero." },
+          { titulo: "Retiro sin costo", texto: "En nuestros locales del Centro y del Sur." },
         ],
       },
     },
@@ -158,15 +158,12 @@ const SECCIONES = {
 
   local: {
     titulo: "El local",
-    descripcion: "Foto del local de fondo, con la dirección, los horarios y el mapa en el medio.",
+    descripcion: "Foto del local de fondo, con las sucursales y los horarios en el medio. Las direcciones se editan en src/data/turnos.js.",
     campos: {
       etiqueta: etiquetaSeccion("Visitanos"),
-      titulo: tituloSeccion("Te esperamos *en el local*"),
+      titulo: tituloSeccion("Te esperamos *en los locales*"),
       bajada: parrafo("Texto", "Sentate en el sillón, pedí tu corte y llevate tus insumos.", 200),
-      direccion: texto("Dirección", "La Plata 189, Santiago del Estero", 60, { ancho: "medio" }),
       horarios: texto("Horarios", "Lunes a sábado · 9 a 13 y 18 a 22 hs", 60, { ancho: "medio" }),
-      botonTexto: texto("Botón", "Cómo llegar", 30, { ancho: "medio" }),
-      botonLink: link("Link del mapa", "https://maps.app.goo.gl/9vVBNpbeBPQEKGS27"),
       imagen: imagen("Foto de fondo", "/img/inicio/local.jpg", { ayuda: "Foto horizontal del local. Se oscurece para que se lean los datos.", fondo: "oscuro" }),
     },
   },

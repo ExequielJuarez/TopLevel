@@ -21,9 +21,9 @@
     <div>
       <h4>Local</h4>
       <div class="footer__datos">
-        <span><%= t.direccion %></span>
+        <% t.sucursales.forEach((s) => { %><a href="<%= s.mapa %>" target="_blank" rel="noopener"><strong><%= s.nombre %>:</strong> <%= s.direccion.replace(', Santiago del Estero', '') %></a><% }) %>
+        <span class="apagado">Santiago del Estero</span>
         <span class="apagado"><%= t.horarios %></span>
-        <% if (t.mapa) { %><a href="<%= t.mapa %>" target="_blank" rel="noopener" class="enlace" style="justify-self:start;margin-top:8px">Cómo llegar</a><% } %>
       </div>
     </div>
     <div>
