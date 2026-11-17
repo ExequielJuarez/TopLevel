@@ -58,3 +58,25 @@
 
   arrancar();
 })();
+
+// Videos (cómo llegar y One Academy): se reproducen sin sonido cuando se ven y se pausan al salir
+(() => {
+  const videos = document.querySelectorAll("[data-video] video");
+  if (!videos.length) return;
+  const quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if ("IntersectionObserver" in window && !quieto) {
+    const o = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) e.target.play().catch(() => {});
+      else e.target.pause();
+    }), { threshold: 0.35 });
+    videos.forEach((v) => o.observe(v));
+  }
+  document.querySelectorAll("[data-sonido]").forEach((b) => b.addEventListener("click", () => {
+    const v = b.parentElement.querySelector("video");
+    if (!v) return;
+    v.muted = !v.muted;
+    if (!v.muted) v.play().catch(() => {});
+    b.setAttribute("aria-pressed", String(!v.muted));
+    b.setAttribute("aria-label", v.muted ? "Activar sonido" : "Silenciar");
+  }));
+})();

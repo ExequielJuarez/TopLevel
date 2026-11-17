@@ -96,7 +96,7 @@
   </nav>
   <a href="/insumos" class="btn btn--volt btn--bloque drawer__turno">Ver insumos</a>
   <div class="drawer__pie">
-    <% tienda.sucursales.forEach((s) => { %><span><%= s.nombre %>: <%= s.direccion.replace(', Santiago del Estero', '') %></span><% }) %>
+    <% tienda.sucursales.forEach((s) => { %><span><%= tienda.sucursales.length > 1 ? s.nombre + ': ' : '' %><%= s.direccion %></span><% }) %>
     <span><%= tienda.horarios %></span>
     <a href="<%= tienda.instagram %>" target="_blank" rel="noopener"><%= tienda.usuario %></a>
   </div>

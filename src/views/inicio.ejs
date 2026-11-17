@@ -148,55 +148,91 @@
 </section>
 <% } %>
 
-<%# ═════════ EL LOCAL ═════════ %>
-<% if (c.local.visible) { %>
-<%# Foto del local de fondo y los datos en el medio %>
-<section class="local" id="local">
-  <% if (c.local.imagen) { %><img class="local__fondo" src="<%= c.local.imagen %>" alt="" loading="lazy"><% } %>
-  <div class="local__velo" aria-hidden="true"></div>
-  <div class="contenedor local__centro rev">
-    <p class="etiqueta-seccion local__etiqueta"><%= c.local.etiqueta %></p>
-    <h2 class="local__titulo titulo"><%- textoRico(c.local.titulo) %></h2>
-    <% if (c.local.bajada) { %><p class="local__bajada"><%= c.local.bajada %></p><% } %>
-    <div class="local__datos">
-      <% tienda.sucursales.forEach((s) => { %>
-      <a class="local__dato local__dato--sucursal" href="<%= s.mapa %>" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
-        <span><small>Sucursal <%= s.nombre %></small><%= s.direccion.replace(', Santiago del Estero', '') %><em>Cómo llegar →</em></span>
-      </a>
-      <% }) %>
-      <div class="local__dato">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        <span><small>Horarios</small><%= c.local.horarios %></span>
+<%# ═════════ EL LOCAL: datos a la izquierda, video de cómo llegar a la derecha ═════════ %>
+<% if (c.local.visible) { const suc = tienda.sucursales[0]; %>
+<section class="local2" id="local">
+  <div class="contenedor local2__grilla">
+    <div class="local2__info rev">
+      <p class="etiqueta-seccion"><%= c.local.etiqueta %></p>
+      <h2 class="local2__titulo titulo"><%- textoRico(c.local.titulo) %></h2>
+      <% if (c.local.bajada) { %><p class="local2__bajada"><%= c.local.bajada %></p><% } %>
+      <ul class="local2__datos">
+        <% if (suc) { %>
+        <li>
+          <span class="local2__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+          <span><small>Dirección</small><strong><%= suc.direccion %></strong></span>
+        </li>
+        <% } %>
+        <li>
+          <span class="local2__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span><small>Horarios</small><strong><%= c.local.horarios %></strong></span>
+        </li>
+        <% if (tienda.whatsapp) { %>
+        <li>
+          <span class="local2__icono"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3a9 9 0 00-7.8 13.5L3 21l4.6-1.2A9 9 0 1012 3z"/></svg></span>
+          <span><small>WhatsApp</small><a href="<%= tienda.whatsapp %>" target="_blank" rel="noopener"><strong>Escribinos</strong></a></span>
+        </li>
+        <% } %>
+      </ul>
+      <div class="local2__botones">
+        <% if (suc) { %>
+        <a href="<%= suc.mapa %>" target="_blank" rel="noopener" class="btn btn--volt">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
+          Abrir en Google Maps
+        </a>
+        <% } %>
+        <a href="<%= c.portada.botonLink %>" class="btn btn--linea"><%= c.portada.botonTexto %></a>
       </div>
-      <% if (tienda.whatsapp) { %>
-      <div class="local__dato">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3a9 9 0 00-7.8 13.5L3 21l4.6-1.2A9 9 0 1012 3z"/></svg>
-        <span><small>WhatsApp</small><a href="<%= tienda.whatsapp %>" target="_blank" rel="noopener">Escribinos</a></span>
+    </div>
+
+    <% if (c.local.video) { %>
+    <figure class="local2__video rev" data-video>
+      <span class="local2__chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Cómo llegar · paso a paso</span>
+      <div class="telefono">
+        <video src="<%= c.local.video %>#t=0.5" muted loop playsinline preload="metadata" aria-label="Video: cómo llegar al local"></video>
+        <button type="button" class="video-sonido" data-sonido aria-label="Activar sonido" aria-pressed="false">
+          <svg class="video-sonido__off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+          <svg class="video-sonido__on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg>
+        </button>
       </div>
-      <% } %>
-    </div>
-    <div class="local__botones">
-      <a href="<%= c.portada.botonLink %>" class="btn btn--volt">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
-        <%= c.portada.botonTexto %>
-      </a>
-    </div>
+    </figure>
+    <% } %>
   </div>
 </section>
 <% } %>
 
-<%# ═════════ CIERRE ═════════ %>
-<% if (c.cierre.visible) { %>
-<section class="cierre">
-  <div class="contenedor cierre__interior rev">
-    <p class="etiqueta-seccion"><%= c.cierre.etiqueta %></p>
-    <h2 class="cierre__titulo titulo">
-      <% lineas(c.cierre.titulo).forEach((l) => { %><span><%- textoRico(l) %></span><% }) %>
-    </h2>
-    <div class="hero__botones">
-      <a href="<%= c.cierre.botonLink %>" target="_blank" rel="noopener" class="btn btn--volt"><%= c.cierre.botonTexto %></a>
-      <a href="<%= c.cierre.secundarioLink %>" class="btn btn--linea"><%= c.cierre.secundarioTexto %></a>
+<%# ═════════ ONE ACADEMY: cursos de barbería ═════════ %>
+<% if (c.academia.visible) { %>
+<section class="academia" id="academia">
+  <div class="contenedor academia__grilla">
+    <div class="academia__medios rev" data-video>
+      <% if (c.academia.foto) { %><img class="academia__foto" src="<%= c.academia.foto %>" alt="Alumnos de One Academy con su certificado de finalización" loading="lazy"><% } %>
+      <% if (c.academia.video) { %>
+      <div class="academia__video">
+        <video src="<%= c.academia.video %>#t=0.5" muted loop playsinline preload="metadata" aria-label="Video de los cursos de One Academy"></video>
+        <button type="button" class="video-sonido" data-sonido aria-label="Activar sonido" aria-pressed="false">
+          <svg class="video-sonido__off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+          <svg class="video-sonido__on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg>
+        </button>
+      </div>
+      <% } %>
+      <span class="academia__sello" aria-hidden="true">Con<br>certificado</span>
+    </div>
+
+    <div class="academia__texto rev">
+      <p class="academia__marca" role="img" aria-label="One Academy"><b>ONE</b>ACADEMY</p>
+      <h2 class="academia__titulo titulo"><%- textoRico(c.academia.titulo) %></h2>
+      <% if (c.academia.bajada) { %><p class="academia__bajada"><%= c.academia.bajada %></p><% } %>
+      <ol class="academia__puntos">
+        <% lineas(c.academia.puntos).forEach((p, i) => { %>
+        <li><span><%= String(i + 1).padStart(2, '0') %></span><%= p %></li>
+        <% }) %>
+      </ol>
+      <div class="academia__botones">
+        <% const inscribirse = c.academia.botonLink || tienda.whatsapp || tienda.instagram; %>
+        <a href="<%= inscribirse %>" target="_blank" rel="noopener" class="btn btn--volt btn--grande"><%= c.academia.botonTexto %></a>
+        <a href="<%= tienda.instagram %>" target="_blank" rel="noopener" class="btn btn--linea btn--grande">Ver en Instagram</a>
+      </div>
     </div>
   </div>
 </section>

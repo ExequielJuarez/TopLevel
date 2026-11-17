@@ -156,33 +156,33 @@ const SECCIONES = {
 
   local: {
     titulo: "El local",
-    descripcion: "Foto del local de fondo, con las sucursales y los horarios en el medio. Las direcciones se editan en src/data/sucursales.js.",
+    descripcion: "La dirección, los horarios y el video de cómo llegar. La dirección se edita en src/data/sucursales.js.",
     campos: {
       etiqueta: etiquetaSeccion("Visitanos"),
-      titulo: tituloSeccion("Te esperamos *en los locales*"),
+      titulo: tituloSeccion("Te esperamos *en el local*"),
       bajada: parrafo("Texto", "Sentate en el sillón, pedí tu corte y llevate tus insumos.", 200),
       horarios: texto("Horarios", "Lunes a sábado · 9 a 13 y 18 a 22 hs", 60, { ancho: "medio" }),
-      imagen: imagen("Foto de fondo", "/img/inicio/cortes/corte-06.jpg", { ayuda: "Foto horizontal del local. Se oscurece para que se lean los datos.", fondo: "oscuro" }),
+      video: link("Video de cómo llegar", "/video/como-llegar.mp4", { ayuda: "Video vertical (mp4) guardado en public/video." }),
     },
   },
 
-  cierre: {
-    titulo: "Cierre",
-    descripcion: "La invitación final antes del pie de página.",
+  academia: {
+    titulo: "One Academy",
+    descripcion: "Los cursos de barbería: foto de los alumnos, el video y los datos para inscribirse.",
     campos: {
-      etiqueta: etiquetaSeccion("Siempre hay algo nuevo"),
-      titulo: {
+      titulo: tituloSeccion("Aprendé el oficio *con los que saben*"),
+      bajada: parrafo("Texto", "Cursos de barbería desde cero: técnica, práctica con modelos reales y todo lo que necesitás para salir a trabajar.", 220),
+      puntos: {
         tipo: "lineas",
-        etiqueta: "Título",
-        defecto: "Seguinos y\nenterate *primero*",
-        max: 60,
-        maxLineas: 3,
-        ayuda: "*Entre asteriscos* queda resaltado.",
+        etiqueta: "Lo que incluye (un renglón por punto)",
+        defecto: "Clases prácticas con modelos reales\nGrupos reducidos, te seguimos de cerca\nCertificado de finalización One Academy",
+        max: 200,
+        maxLineas: 5,
       },
-      botonTexto: texto("Botón", "Ir al Instagram", 30, { ancho: "medio" }),
-      botonLink: link("Link del botón", "https://www.instagram.com/"),
-      secundarioTexto: texto("Link secundario", "Ver los insumos", 40, { ancho: "medio" }),
-      secundarioLink: link("A dónde lleva", "/insumos"),
+      botonTexto: texto("Botón", "Quiero inscribirme", 30, { ancho: "medio" }),
+      botonLink: link("Link del botón", "", { ayuda: "Vacío: abre el WhatsApp de la tienda (o el Instagram si no hay WhatsApp)." }),
+      foto: imagen("Foto de los alumnos", "/img/inicio/academy.jpg", { ayuda: "Foto vertical de los alumnos." }),
+      video: link("Video", "/video/academy.mp4", { ayuda: "Video vertical (mp4) guardado en public/video." }),
     },
   },
 };
