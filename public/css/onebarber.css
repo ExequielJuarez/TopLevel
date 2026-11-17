@@ -73,3 +73,15 @@
 @media (max-width: 900px) { .header__barra > .marca-link { --logo-tam: 24px; } }
 @media (max-width: 640px) { .header__barra { gap: 6px; } .header__barra > .marca-link { --logo-tam: 17px; } .header__acciones { gap: 0; } .header__acciones .icono-btn, .header__menu-btn { min-width: 36px; width: 36px; padding-inline: 0; } .footer__marca .marca-link { --logo-tam: 28px; } }
 .local__fondo { object-position: center 20%; }
+
+/* PC: el logo a la izquierda y el menú al lado (con 6 categorías no entra con el logo en el medio) */
+@media (min-width: 1241px) {
+  .header__barra { grid-template-columns: auto minmax(0, 1fr) auto; gap: 28px; }
+  .header__barra > .marca-link { grid-column: 1; }
+  .header__barra .nav { grid-column: 2; justify-self: center; }
+  .nav__lista { margin-left: 0; }
+}
+@media (min-width: 1241px) and (max-width: 1400px) {
+  .header__acciones .icono-btn__txt { display: none; }
+  .nav__lista a { padding-inline: 8px; letter-spacing: 0.04em; }
+}
