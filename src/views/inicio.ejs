@@ -6,48 +6,34 @@
   const precio = (n) => formatoPrecio(n).replace(',00', '');
 %>
 
-<%# ═════════ PORTADA ═════════ %>
-<%# Banner: las fotos de los cortes pasan solas (public/js/inicio.js) %>
-<% const fotosBanner = c.portada.fotos.map((f) => f.imagen).filter(Boolean); %>
-<section class="banner" id="portada" data-banner data-segundos="<%= c.portada.segundos || 5 %>" aria-roledescription="carrusel" aria-label="Cortes de OneBarber">
-  <div class="banner__fotos">
-    <% fotosBanner.forEach((src, i) => { %>
-      <div class="banner__foto <%= i === 0 ? 'activa' : '' %>" data-slide>
-        <%# Atrás: la misma foto borrosa para llenar los costados. Adelante: la foto entera, sin cortar cabezas %>
-        <img class="banner__relleno" src="<%= src %>" alt="" aria-hidden="true" <%- i === 0 ? '' : 'loading="lazy"' %>>
-        <img class="banner__img" src="<%= src %>" alt="Corte de OneBarber <%= i + 1 %>" <%- i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %>>
+<%# ═════════ PORTADA: textos a la izquierda y el video del local a la derecha (en el celular, el video abajo con los botones encima) ═════════ %>
+<section class="portada" id="portada">
+  <div class="contenedor portada__grilla">
+    <div class="portada__texto">
+      <p class="etiqueta-seccion"><%= c.portada.etiqueta %></p>
+      <h1 class="portada__titulo titulo">
+        <% lineas(c.portada.titulo).forEach((l) => { %><span><%- textoRico(l) %></span><% }) %>
+      </h1>
+      <% if (c.portada.bajada) { %><p class="portada__bajada"><%= c.portada.bajada %></p><% } %>
+      <% if (c.portada.puntos) { %>
+      <ul class="portada__puntos">
+        <% lineas(c.portada.puntos).forEach((p) => { %><li><%= p %></li><% }) %>
+      </ul>
+      <% } %>
+      <div class="portada__botones portada__botones--pc">
+        <a href="<%= c.portada.botonLink %>" class="btn btn--volt btn--grande"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg><%= c.portada.botonTexto %></a>
+        <a href="<%= c.portada.secundarioLink %>" class="btn btn--blanco btn--grande"><%= c.portada.secundarioTexto %><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
-    <% }) %>
-  </div>
-  <div class="banner__velo" aria-hidden="true"></div>
+    </div>
 
-  <div class="banner__contenido">
-    <p class="etiqueta-seccion banner__etiqueta"><%= c.portada.etiqueta %></p>
-    <h1 class="banner__titulo titulo">
-      <% lineas(c.portada.titulo).forEach((l) => { %><span><%- textoRico(l) %></span><% }) %>
-    </h1>
-    <% if (c.portada.bajada) { %><p class="banner__bajada"><%= c.portada.bajada %></p><% } %>
-    <div class="banner__botones">
-      <a href="<%= c.portada.botonLink %>" class="btn btn--volt btn--grande" <%- /^https?:/.test(c.portada.botonLink) ? 'target="_blank" rel="noopener"' : '' %>>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
-        <%= c.portada.botonTexto %>
-      </a>
-      <a href="<%= c.portada.secundarioLink %>" class="btn btn--blanco btn--grande">
-        <%= c.portada.secundarioTexto %>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+    <div class="portada__video" data-video>
+      <% if (c.portada.video) { %><video src="<%= c.portada.video %>" autoplay muted loop playsinline preload="metadata" aria-label="Video del local y los insumos de OneBarber"></video><% } %>
+      <div class="portada__botones portada__botones--cel">
+        <a href="<%= c.portada.botonLink %>" class="btn btn--volt btn--grande"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg><%= c.portada.botonTexto %></a>
+        <a href="<%= c.portada.secundarioLink %>" class="btn btn--blanco btn--grande"><%= c.portada.secundarioTexto %><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
     </div>
   </div>
-
-  <% if (fotosBanner.length > 1) { %>
-  <div class="banner__controles">
-    <button type="button" class="banner__flecha" data-anterior aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
-    <div class="banner__puntos" role="tablist">
-      <% fotosBanner.forEach((_, i) => { %><button type="button" class="banner__punto <%= i === 0 ? 'activo' : '' %>" data-punto="<%= i %>" aria-label="Ver foto <%= i + 1 %>"></button><% }) %>
-    </div>
-    <button type="button" class="banner__flecha" data-siguiente aria-label="Foto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
-  </div>
-  <% } %>
 </section>
 
 <%# ═════════ CINTA ═════════ %>
