@@ -9,13 +9,13 @@
 <%# ═════════ PORTADA ═════════ %>
 <%# Banner: las fotos de los cortes pasan solas (public/js/inicio.js) %>
 <% const fotosBanner = c.portada.fotos.map((f) => f.imagen).filter(Boolean); %>
-<section class="banner" id="portada" data-banner data-segundos="<%= c.portada.segundos || 5 %>" aria-roledescription="carrusel" aria-label="Cortes de Top Level">
+<section class="banner" id="portada" data-banner data-segundos="<%= c.portada.segundos || 5 %>" aria-roledescription="carrusel" aria-label="Cortes de OneBarber">
   <div class="banner__fotos">
     <% fotosBanner.forEach((src, i) => { %>
       <div class="banner__foto <%= i === 0 ? 'activa' : '' %>" data-slide>
         <%# Atrás: la misma foto borrosa para llenar los costados. Adelante: la foto entera, sin cortar cabezas %>
         <img class="banner__relleno" src="<%= src %>" alt="" aria-hidden="true" <%- i === 0 ? '' : 'loading="lazy"' %>>
-        <img class="banner__img" src="<%= src %>" alt="Corte de Top Level Barber Shop <%= i + 1 %>" <%- i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %>>
+        <img class="banner__img" src="<%= src %>" alt="Corte de OneBarber <%= i + 1 %>" <%- i === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %>>
       </div>
     <% }) %>
   </div>
@@ -29,7 +29,7 @@
     <% if (c.portada.bajada) { %><p class="banner__bajada"><%= c.portada.bajada %></p><% } %>
     <div class="banner__botones">
       <a href="<%= c.portada.botonLink %>" class="btn btn--volt btn--grande" <%- /^https?:/.test(c.portada.botonLink) ? 'target="_blank" rel="noopener"' : '' %>>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
         <%= c.portada.botonTexto %>
       </a>
       <a href="<%= c.portada.secundarioLink %>" class="btn btn--blanco btn--grande">
@@ -178,7 +178,7 @@
     </div>
     <div class="local__botones">
       <a href="<%= c.portada.botonLink %>" class="btn btn--volt">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M5 8h14l-1.2 12H6.2L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
         <%= c.portada.botonTexto %>
       </a>
     </div>

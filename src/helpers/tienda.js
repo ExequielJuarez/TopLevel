@@ -10,12 +10,12 @@ const linkMapa = (direccion) => `https://www.google.com/maps/search/?api=1&query
 
 module.exports = function datosTienda() {
   const e = process.env;
-  // Sucursales (se editan en src/data/turnos.js)
-  const sucursales = require("../data/turnos").sucursales.map((s) => ({ ...s, mapa: s.mapa || linkMapa(s.direccion) }));
+  // Sucursales (se editan en src/data/sucursales.js)
+  const sucursales = require("../data/sucursales").map((s) => ({ ...s, mapa: s.mapa || linkMapa(s.direccion) }));
   return {
     sucursales,
-    nombre: "Top Level Barber Shop",
-    usuario: "@toplevel.barbershop",
+    nombre: "OneBarber",
+    usuario: "@onebarber",
     razonSocial: e.TIENDA_RAZON_SOCIAL || "",
     cuit: e.TIENDA_CUIT || "",
     direccion: e.TIENDA_DIRECCION || "Garibaldi 141 y Av. Independencia 2742, Santiago del Estero",

@@ -5,11 +5,11 @@
 -- notificaciones. No toca ni borra datos.
 --
 -- Uso: abrir en Workbench y ejecutar (⚡), o
---      mysql -u root -p tienda_toplevel < database/migraciones/002-notificaciones.sql
+--      mysql -u root -p tienda_onebarber < database/migraciones/002-notificaciones.sql
 -- Si instalás la base desde cero con schema.sql, NO hace falta.
 -- ==========================================================
 
-USE tienda_toplevel;
+USE tienda_onebarber;
 SET NAMES utf8mb4;
 
 -- ----------------------------------------------------------

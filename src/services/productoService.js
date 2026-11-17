@@ -12,9 +12,9 @@ const MAX_IMAGENES = 8;
 // Valores por defecto para productos cargados sin ficha completa
 const POR_DEFECTO = {
   cuotas: 6,
-  resumen: "Prenda de la selección Top Level, seleccionada en nuestro local de Santiago del Estero.",
+  resumen: "Prenda de la selección OneBarber, seleccionada en nuestro local de Santiago del Estero.",
   descripcion: ["Acá va la descripción principal del producto: qué es, cómo calza y con qué combina."],
-  destacados: ["Original Top Level"],
+  destacados: ["Original OneBarber"],
 };
 
 // Talles que se ofrecen en el panel (el orden es el de la ficha)

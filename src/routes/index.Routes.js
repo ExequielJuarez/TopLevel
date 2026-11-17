@@ -126,16 +126,8 @@ router.get("/insumos", async (req, res) => {
   });
 });
 
-// Sacar turno: página para elegir servicio, día y hora (se confirma por WhatsApp)
-router.get("/turno", (req, res) => {
-  res.render("turno", {
-    titulo: "Sacar turno",
-    estilo: "turno",
-    navActivo: "turno",
-    config: require("../data/turnos"),
-    descripcion: "Reservá tu turno en Top Level Barber Shop: elegí servicio, día y hora.",
-  });
-});
+// Esta versión no tiene turnos: si alguien entra a /turno vuelve al inicio
+router.get("/turno", (req, res) => res.redirect(301, "/"));
 
 // Direcciones viejas (/catalogo, /catalogo?q=…, /catalogo?categoria=Remeras)
 router.get("/catalogo", async (req, res) => {

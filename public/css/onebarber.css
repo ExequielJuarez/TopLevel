@@ -1,0 +1,75 @@
+/* ═══════════════════════════════════════════════════════════
+   ONEBARBER — capa de estilo de la marca
+   Va al final de todo (después de base.css y de la hoja de cada
+   página): naranja + negro, logo en texto y títulos inclinados
+   como el logo.
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --volt: #ff5a1f;
+  --volt-oscuro: #e0460f;
+  --negro: #0b0b0c;
+  --ff-logo: "Montserrat", "Arial Black", sans-serif;
+}
+
+/* ── Logo: ONE (naranja) + BARBER ── */
+.marca-texto {
+  display: inline-block; width: auto; aspect-ratio: auto;
+  font-family: var(--ff-logo); font-style: italic; font-weight: 900;
+  font-size: var(--logo-tam, 24px); line-height: 1; letter-spacing: -0.015em;
+  white-space: nowrap; color: currentColor; text-transform: uppercase;
+  padding-right: 0.08em; /* la cursiva no se corta */
+}
+.marca-texto b { font-weight: 900; color: var(--volt); }
+.marca-link { width: auto; }
+.marca-link:hover .marca-logo--vivo { transform: skewX(-6deg) scale(1.03); }
+@keyframes logo-entra { from { opacity: 0; transform: translateX(-18px) skewX(-12deg); } to { opacity: 1; transform: none; } }
+
+.header__barra > .marca-link { width: auto; --logo-tam: 30px; }
+.drawer__logo { width: auto; --logo-tam: 22px; }
+.footer__marca .marca-link { width: auto; --logo-tam: 34px; color: #fff; }
+.footer .marca-logo { border-radius: 0; background: none; padding: 0; }
+.intro { background: var(--negro); }
+.intro__marca { width: auto; color: #fff; --logo-tam: clamp(38px, 9vw, 76px); }
+.intro__linea { background: rgba(255, 255, 255, 0.12); }
+.acceso__logo { width: auto !important; --logo-tam: clamp(30px, 3vw, 42px); }
+.adm-marca span { width: auto; }
+.adm-marca .marca-logo { border-radius: 0; background: none; padding: 0; color: #fff; --logo-tam: 22px; }
+.comp__marca .marca-texto { --logo-tam: 26px; color: #111; margin-bottom: 8px; }
+
+/* ── Header negro, como el fondo del logo ── */
+.header {
+  --papel: #ffffff; --papel-2: rgba(255, 255, 255, 0.74); --apagado: rgba(255, 255, 255, 0.55);
+  --tinta: #141416; --tinta-2: #1b1b1e; --tinta-3: #232327; --tinta-4: #2c2c31;
+  --linea: rgba(255, 255, 255, 0.12); --linea-fuerte: rgba(255, 255, 255, 0.3);
+  background: rgba(11, 11, 12, 0.94); color: #fff; border-bottom-color: transparent;
+  box-shadow: inset 0 -2px 0 var(--volt);
+}
+.header .icono-btn { color: #fff; }
+.header .icono-btn:hover { color: var(--volt); }
+
+/* ── Títulos inclinados como el logo ── */
+.titulo, .pagina__titulo { font-style: italic; }
+.titulo em, .resaltado, h1 em, h2 em,
+.banner__titulo em, .local__titulo em, .cinta__pista em, .footer__gigante em {
+  font-family: var(--ff-logo); font-style: italic; font-weight: 900; text-transform: uppercase;
+  font-size: 0.8em; line-height: 1; letter-spacing: -0.02em; color: var(--volt);
+}
+/* Sobre fotos oscuras el resaltado también va en naranja */
+.banner__titulo em, .local__titulo em, .cinta__pista em { color: var(--volt); }
+.footer__gigante em { color: rgba(255, 90, 31, 0.14); }
+
+/* Etiquetas chicas con una rayita naranja inclinada */
+.etiqueta-seccion::before { content: ""; flex: none; width: 18px; height: 3px; background: var(--volt); transform: skewX(-20deg); }
+
+/* Botón naranja con un brillo suave del mismo color */
+.btn--volt { box-shadow: 0 8px 22px rgba(255, 90, 31, 0.28); }
+.btn--volt:hover { box-shadow: 0 12px 26px rgba(255, 90, 31, 0.36); }
+
+/* El logo es más ancho que el de antes: el menú no se parte en dos renglones */
+.nav__lista a { white-space: nowrap; letter-spacing: 0.06em; padding-inline: 10px; }
+.nav__lista a::after { left: 10px; right: 10px; }
+.banner__titulo { max-width: 14ch; }
+.banner__titulo em { white-space: nowrap; }
+@media (max-width: 900px) { .header__barra > .marca-link { --logo-tam: 24px; } }
+@media (max-width: 640px) { .header__barra { gap: 6px; } .header__barra > .marca-link { --logo-tam: 17px; } .header__acciones { gap: 0; } .header__acciones .icono-btn, .header__menu-btn { min-width: 36px; width: 36px; padding-inline: 0; } .footer__marca .marca-link { --logo-tam: 28px; } }
+.local__fondo { object-position: center 20%; }

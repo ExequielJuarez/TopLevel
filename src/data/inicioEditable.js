@@ -27,22 +27,20 @@ const SECCIONES = {
     descripcion: "Lo primero que se ve al entrar: las fotos de los cortes van pasando solas, con el título y los botones encima.",
     siempreVisible: true,
     campos: {
-      etiqueta: texto("Texto chico de arriba", "Top Level · Barber Shop", 70),
+      etiqueta: texto("Texto chico de arriba", "OneBarber · Barber Shop", 70),
       titulo: {
         tipo: "lineas",
         etiqueta: "Título",
-        defecto: "Tu estilo\nen otro *nivel*",
+        defecto: "Tu barbería\n*número uno*",
         max: 60,
         maxLineas: 2,
         ayuda: "*Entre asteriscos* queda en cursiva.",
       },
-      bajada: parrafo("Texto debajo del título", "Cortes, fades, color y barba. Reservá tu lugar en el sillón.", 160),
-      botonTexto: texto("Botón principal", "Sacar turno", 30, { ancho: "medio" }),
-      botonLink: link("Link del botón principal", "/turno", {
-        ayuda: "/turno abre la página para sacar turno (se confirma por WhatsApp: configurá TIENDA_WHATSAPP en el .env).",
-      }),
-      secundarioTexto: texto("Botón secundario", "Ver insumos", 30, { ancho: "medio" }),
-      secundarioLink: link("A dónde lleva", "/insumos"),
+      bajada: parrafo("Texto debajo del título", "Cortes, fades, color y barba. Y los insumos que usan los que saben.", 160),
+      botonTexto: texto("Botón principal", "Ver insumos", 30, { ancho: "medio" }),
+      botonLink: link("Link del botón principal", "/insumos"),
+      secundarioTexto: texto("Botón secundario", "Visitanos", 30, { ancho: "medio" }),
+      secundarioLink: link("A dónde lleva", "/#local"),
       segundos: { tipo: "numero", etiqueta: "Segundos por foto", defecto: 5, max: 30, ancho: "medio" },
       fotos: {
         tipo: "lista",
@@ -51,7 +49,7 @@ const SECCIONES = {
         cantidad: 12,
         ayuda: "Se muestran en orden y van pasando solas. Las vacías no se usan.",
         campos: { imagen: imagen("Foto", "", { fondo: "oscuro" }) },
-        defecto: Array.from({ length: 11 }, (_, i) => ({ imagen: `/img/inicio/cortes/corte-${String(i + 1).padStart(2, "0")}.jpg` })),
+        defecto: ["01", "02", "03", "05", "06", "07", "10", "11"].map((n) => ({ imagen: `/img/inicio/cortes/corte-${n}.jpg` })),
       },
     },
   },
@@ -63,7 +61,7 @@ const SECCIONES = {
       palabras: {
         tipo: "lineas",
         etiqueta: "Palabras",
-        defecto: "Cortes clásicos\n*Fades*\nBarba y navaja\n*Top Level*\nProductos de cuidado\n*Barber Shop*",
+        defecto: "Cortes clásicos\n*Fades*\nBarba y navaja\n*OneBarber*\nProductos de cuidado\n*Barber Shop*",
         max: 240,
         maxLineas: 10,
         ayuda: "Una por renglón. *Entre asteriscos* va resaltada.",
@@ -115,8 +113,8 @@ const SECCIONES = {
     descripcion: "Mosaico de fotos del local y de los cortes. Solo se muestra si cargás al menos una foto.",
     campos: {
       etiqueta: etiquetaSeccion("En el sillón"),
-      titulo: tituloSeccion("Así se ve *Top Level*"),
-      redTexto: texto("Link a redes", "@toplevel.barbershop", 30, { ancho: "medio" }),
+      titulo: tituloSeccion("Así se ve *OneBarber*"),
+      redTexto: texto("Link a redes", "@onebarber", 30, { ancho: "medio" }),
       redLink: link("A dónde lleva", "https://www.instagram.com/"),
       fotos: {
         tipo: "lista",
@@ -158,13 +156,13 @@ const SECCIONES = {
 
   local: {
     titulo: "El local",
-    descripcion: "Foto del local de fondo, con las sucursales y los horarios en el medio. Las direcciones se editan en src/data/turnos.js.",
+    descripcion: "Foto del local de fondo, con las sucursales y los horarios en el medio. Las direcciones se editan en src/data/sucursales.js.",
     campos: {
       etiqueta: etiquetaSeccion("Visitanos"),
       titulo: tituloSeccion("Te esperamos *en los locales*"),
       bajada: parrafo("Texto", "Sentate en el sillón, pedí tu corte y llevate tus insumos.", 200),
       horarios: texto("Horarios", "Lunes a sábado · 9 a 13 y 18 a 22 hs", 60, { ancho: "medio" }),
-      imagen: imagen("Foto de fondo", "/img/inicio/local.jpg", { ayuda: "Foto horizontal del local. Se oscurece para que se lean los datos.", fondo: "oscuro" }),
+      imagen: imagen("Foto de fondo", "/img/inicio/cortes/corte-06.jpg", { ayuda: "Foto horizontal del local. Se oscurece para que se lean los datos.", fondo: "oscuro" }),
     },
   },
 

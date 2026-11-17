@@ -29,7 +29,7 @@ function obtenerTransporte() {
   return transporte;
 }
 
-const TIENDA = () => "Top Level Barber Shop";
+const TIENDA = () => "OneBarber";
 
 const ASUNTOS = {
   login: "Tu código para entrar",

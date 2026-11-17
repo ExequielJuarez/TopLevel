@@ -6,11 +6,11 @@
 -- (La app también la crea sola al arrancar si no existe.)
 --
 -- Uso: abrir en Workbench y ejecutar (⚡), o
---      mysql -u root -p tienda_toplevel < database/migraciones/003-contenido-inicio.sql
+--      mysql -u root -p tienda_onebarber < database/migraciones/003-contenido-inicio.sql
 -- Si instalás la base desde cero con schema.sql, NO hace falta.
 -- ==========================================================
 
-USE tienda_toplevel;
+USE tienda_onebarber;
 SET NAMES utf8mb4;
 
 -- ----------------------------------------------------------
